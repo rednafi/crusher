@@ -27,21 +27,21 @@ jobs:
           echo "Upgrading pip ...."
           python -m pip install --upgrade pip
 
-          echo "Installing poetry..."
-          pip install poetry
+          make export
 
           echo "Installing the dependencies..."
-          poetry install
+          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-dev.txt
 
       - name: Check Black Formatting
         run: |
           echo "Checking black formatting..."
-          poetry run black --check .
+          python -m black --check .
 
       - name: Check Isort Formatting
         run: |
           echo "Checking Isort formatting..."
-          poetry run isort --profile black --check .
+          python -m isort --profile black --check .
 
       - name: Run the tests & Generate coverage report
         run: |
