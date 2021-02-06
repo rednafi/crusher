@@ -1,0 +1,98 @@
+{
+    "uuid": "3934de86-e308-4407-b411-e57b23b9f1e5",
+    "alternate_id": "123123",
+    "account": "AnyTestNow",
+    "provider": {
+        "user": {
+            "first_name": "Lisa",
+            "last_name": "Leslie",
+            "email": "leslie@clinic.com"
+        },
+        "uuid": "432b3eda-909c-4500-b5bd-9de2819ab1c1",
+        "npi": "5555555555"
+    },
+    "patient": {
+        "uuid": "b2ccecc7-58b9-4836-b64d-5372bcf82788",
+        "id": "5",
+        "alternate_id": "",
+        "user": {
+            "first_name": "Dell",
+            "last_name": "Curry",
+            "email": "dcurry@mailinator.com"
+        },
+        "middle_initial": "D",
+        "gender": "M",
+        "birth_date": "1980-01-05",
+        "suffix": "",
+        "address1": "23 jump st",
+        "address2": "suite 3",
+        "city": "12city",
+        "state": "",
+        "country": "Armenia",
+        "zip_code": "123423",
+        "social_security": "555-55-5555",
+        "phone_number": "(744) 555-4342",
+        "drivers_license": "",
+        "ethnicity": "U",
+        "race": "U",
+        "reference_integration": null,
+        "bill_to": "Insurance",
+        "accounts": [
+            "f16693a2-c70a-4056-bbc1-e48dda71474a",
+            "3c49f9db-b900-43a8-a5e1-47dbec8f7fd0",
+            "e1e9a0d1-52ba-4904-bbdc-eaaebf05733b"
+        ],
+        "providers": [
+            "a962ed42-c824-499d-bedf-f0da7efed3fe",
+            "432b3eda-909c-4500-b5bd-9de2819ab1c1",
+            "a47ba996-2095-497c-8870-787a70faa6e6"
+        ]
+    },
+    "code": "2021-0000071",
+    "status": "Unreceived",
+    "accession_number": null,
+    "is_acknowledged_by_external_user": false,
+    "in_house_lab_locations": [],
+    "bill_to": "Insurance",
+    "test_panels": [
+        {
+            "uuid": "51f5f9c6-fb43-4ae1-804a-c8c2fc541de6",
+            "test_panel_type": {
+                "uuid": "60a30ac0-a6b3-4774-9686-39e0f37cbdba",
+                "alternate_id": "",
+                "name": "Anticonvulsants"
+            },
+            "samples": [
+                {
+                    "uuid": "ad543d1c-bf7e-4ada-a628-19d737d84edb",
+                    "code": "2021-0000071-U-1",
+                    "alternate_id": "",
+                    "collection_date": null,
+                    "barcode": "20210000071U1",
+                    "clia_sample_type": {
+                        "uuid": "18fc0c28-5e89-4855-9ea2-568590737aa4",
+                        "name": "Urine"
+                    },
+                    "collection_temperature": "",
+                    "comments": [
+                        "00"
+                    ]
+                }
+            ]
+        }
+    ],
+    "origin_entity": "Dendi API",
+    "submitted_date": "2021-01-20T14:17:41.122094",
+    "reference_lab_received_date": null,
+    "origin": "Reference Lab",
+    "icd10_codes": [
+        {
+            "uuid": "b473220f-2abc-45f5-8355-9374c263627f",
+            "full_code": "A00.0"
+        }
+    ],
+    "reference_id": "2020-0021920",
+    "reference_integration": null,
+    "notes_by_provider": "Testing an API call.",
+    "bulk_order_uuid": null
+}

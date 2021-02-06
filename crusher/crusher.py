@@ -1,5 +1,6 @@
 import argparse
 import json
+import sys
 
 from rich.console import Console
 from rich.emoji import Emoji
@@ -113,11 +114,7 @@ class ArgCombinationError(Exception):
     """Raised when an invalid argument combination is provided."""
 
 
-class JSONMissingError(Exception):
-    """Raised when none of JSON str or JSON file path is provided."""
-
-
-def flatten(dct, prefix, delimiter):
+def flatten(dct, prefix="", delimiter="."):
     """Turn a nested dictionary into a flattened dictionary
 
     Parameters
@@ -250,7 +247,7 @@ class Crusher:
         with open(self.export_path, "+w") as f:
             f.write("\n\n".join(rows))
 
-    def splat(self):
+    def crush(self):
         self.print_json()
 
         if self.export_path:
@@ -258,8 +255,8 @@ class Crusher:
 
 
 class CLI:
-    def __init__(self, splatter_cls):
-        self.splatter_cls = splatter_cls
+    def __init__(self, _crusher=Crusher):
+        self._crusher = _crusher
 
     @staticmethod
     def load_json(json_str, json_path=None, demo=False, _demo_str=_DEMO_STR):
@@ -273,21 +270,23 @@ class CLI:
             return json.load(f)
 
     @staticmethod
-    def handle_errors(args):
+    def handle_errors(parser, args):
+        try:
+            sys.argv[1]
+        except IndexError:
+            parser.print_help()
+            parser.exit()
+
         if args.json and args.json_path:
             raise ArgCombinationError("This combination of arguments is not allowed.")
 
         elif args.demo and any((args.json, args.json_path)):
             raise ArgCombinationError("This combination of arguments is not allowed.")
 
-        elif not args.demo and not any((args.json, args.json_path)):
-            err_msg = "None of JSON string or JSON file path has been provided."
-            raise JSONMissingError(err_msg)
-
     @staticmethod
-    def parse_arguments(argv=None):
+    def get_parser():
         parser = argparse.ArgumentParser(
-            description="🗿 Crusher: Flatten a JSON String / File."
+            description="🗿 Crusher: Flatten a JSON String / File.",
         )
         parser.add_argument(
             "--json",
@@ -322,16 +321,17 @@ class CLI:
             help="show the output of an example json",
         )
 
-        return parser.parse_args(argv)
+        return parser
 
     def entrypoint(self, argv=None):
-        args = self.parse_arguments(argv)
+        parser = self.get_parser()
+        args = parser.parse_args(argv)
 
         # Handling errors.
-        self.handle_errors(args)
+        self.handle_errors(parser, args)
 
         dct = self.load_json(args.json, args.json_path, args.demo)
-        sp = self.splatter_cls(
+        sp = self._crusher(
             dct,
             prefix=args.prefix,
             delimiter=args.delimiter,
@@ -339,7 +339,7 @@ class CLI:
             export_path=args.export_path,
         )
 
-        sp.splat()
+        sp.crush()
 
 
 def cli_entrypoint():
