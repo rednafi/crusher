@@ -6,7 +6,7 @@ authors = ["rednafi <redowan.nafi@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.6"
 rich = "^9.10.0"
 
 [tool.poetry.dev-dependencies]
@@ -21,7 +21,7 @@ build-backend = "poetry.core.masonry.api"
 
 # CLI entrypoints
 [tool.poetry.scripts]
-konfik = "konfik:cli_entrypoint"
+crusher = "crusher:crusher.cli_entrypoint"
 
 # Third-party configs
 [tool.black]

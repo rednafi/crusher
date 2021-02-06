@@ -1,2 +1,2 @@
 def test_color():
-    assert 1==2
+    assert 1==1

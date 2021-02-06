@@ -342,7 +342,6 @@ class CLI:
         sp.splat()
 
 
-if __name__ == "__main__":
-
+def cli_entrypoint():
     cli = CLI(Crusher)
     cli.entrypoint(argv=None)
