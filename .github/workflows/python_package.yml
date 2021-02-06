@@ -1,4 +1,4 @@
-name: Konfik Test
+name: Crusher Test
 
 on:
   push:
@@ -27,21 +27,21 @@ jobs:
           echo "Upgrading pip ...."
           python -m pip install --upgrade pip
 
-          make export
+          echo "Installing poetry..."
+          pip install poetry
 
           echo "Installing the dependencies..."
-          python -m pip install -r requirements.txt
-          python -m pip install -r requirements-dev.txt
+          poetry install
 
       - name: Check Black Formatting
         run: |
           echo "Checking black formatting..."
-          python -m black --check .
+          poetry run black --check .
 
       - name: Check Isort Formatting
         run: |
           echo "Checking Isort formatting..."
-          python -m isort --profile black --check .
+          poetry run isort --profile black --check .
 
       - name: Run the tests & Generate coverage report
         run: |
