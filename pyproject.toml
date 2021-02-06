@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "crusher"
+version = "0.1.0"
+description = "Crush a deeply nested JSON string"
+authors = ["rednafi <redowan.nafi@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+rich = "^9.10.0"
+
+[tool.poetry.dev-dependencies]
+black = "isort"
+pytest = "^6.2.2"
+tox = "^3.21.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+# CLI entrypoints
+[tool.poetry.scripts]
+konfik = "konfik:cli_entrypoint"
+
+# Third-party configs
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+atomic = true
+
+[tool.tox]
+legacy_tox_ini = """
+# content of: tox.ini , put in same dir as setup.py
+[tox]
+envlist = py36,py37,py38,py39
+isolated_build = True
+
+[testenv]
+# install pytest in the virtualenv where commands will be executed
+deps = pytest
+install_commands =
+    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+    poetry install --no-dev
+commands =
+    # NOTE: you can run any command line tool here - not just tests
+    pytest -v -s
+"""
