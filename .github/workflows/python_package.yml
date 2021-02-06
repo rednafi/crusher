@@ -38,10 +38,10 @@ jobs:
           echo "Checking black formatting..."
           poetry run black --check .
 
-      - name: Check Isort Formatting
-        run: |
-          echo "Checking Isort formatting..."
-          poetry run isort --profile black --check .
+      # - name: Check Isort Formatting
+      #   run: |
+      #     echo "Checking Isort formatting..."
+      #     poetry run isort --profile black --check .
 
       - name: Run the tests & Generate coverage report
         run: |
