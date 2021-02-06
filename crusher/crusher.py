@@ -216,8 +216,7 @@ class Crusher:
         for k, v in self.flat_dct.items():
             if self.show_value:
                 self._console.print(
-                    emo,
-                    " ",
+                    f" {emo} ",
                     color.key(k),
                     ":",
                     color.type(type(v).__name__),
@@ -226,8 +225,7 @@ class Crusher:
                 )
             else:
                 self._console.print(
-                    emo,
-                    " ",
+                    f" {emo} ",
                     color.key(k),
                     color.sep(":"),
                     color.type(type(v).__name__),
