@@ -45,13 +45,13 @@ jobs:
 
       - name: Run the tests & Generate coverage report
         run: |
-          poetry run pytest -v -s 
+          poetry run pytest -v -s --cov=./ --cov-report=xml
 
-      # - name: Upload coverage to Codecov
-      #   uses: codecov/codecov-action@v1
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     file: ./coverage.xml
-      #     name: codecov-umbrella
-      #     fail_ci_if_error: false
-      #     verbose: true
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          name: codecov-umbrella
+          fail_ci_if_error: false
+          verbose: true
