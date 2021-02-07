@@ -227,7 +227,7 @@ class Crusher:
                 self._console.print(
                     f" {emo} ",
                     color.key(k),
-                    color.sep(":"),
+                    ":",
                     color.type(type(v).__name__),
                 )
 
@@ -307,7 +307,7 @@ class CLI:
         parser.add_argument(
             "--hide_values",
             action="store_false",
-            help="show or hide attr values",
+            help="show or hide attribute values",
         )
         parser.add_argument(
             "--export_path",
