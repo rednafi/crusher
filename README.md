@@ -74,7 +74,7 @@ crusher \
 
 * Additionally, you may choose to export the output as a markdown file. To do so, you'll have to provide the export part of the destination file:
 
-```
+```bash
 crusher \
 --json='{"person": {"first_name": "Warner", "last_name": "Hysenberg", "age": 30}}' \
 --export_path=result.md
@@ -93,7 +93,7 @@ If you inspect the content of the `result.md` file, you'll see something like th
 
 * Directly providing a long string of deeply nested JSON string can be cumbersome. To avoid that—you can proide a `.json` file directly. To do so:
 
-```
+```bash
 crusher --json_path=examples/example.json --export_path=examples/result.md
 ```
 
@@ -101,7 +101,7 @@ This should give you similary output as before.
 
 * Also, you may want to exclude the result of an JSON attribute—useful while doing documentation. To do so, use the `--hide_values` flag.
 
-```
+```bash
 crusher \
 --json='{"person": {"first_name": "Warner", "last_name": "Hysenberg", "age": 30}}' \
 --export_path=result.md \
