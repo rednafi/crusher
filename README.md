@@ -4,8 +4,8 @@
 
 <strong>>> <i>Crush a deeply nested JSON string</i> <<</strong>
 
-<h3></h3>
 
+<img src="https://user-images.githubusercontent.com/30027932/107146854-d7a57600-6974-11eb-978e-aab0b94743da.png" alt="crush-logo">
 
 <br></br>
 ![Codecov](https://img.shields.io/codecov/c/github/rednafi/crusher?color=pink&style=flat-square&logo=appveyor)
@@ -57,7 +57,7 @@ optional arguments:
   --demo                show the output of an example json
 ```
 
-* Flatten a JSON string. You can directly provide your JSON string to the CLI and it will flatten it and dump it on the stdout. To do so—
+* Flatten a JSON string. You can directly provide your JSON string to the CLI and it will flatten it and dump it on the stdout. To do so:
 
 ```bash
 crusher \
@@ -72,7 +72,7 @@ crusher \
  🌳  person.age : int  =>  30
 ```
 
-* Additionally, you may choose to export the output as a markdown file. To do so, you'll have to provide the export part of the destination file—
+* Additionally, you may choose to export the output as a markdown file. To do so, you'll have to provide the export part of the destination file:
 
 ```
 crusher \
@@ -91,7 +91,7 @@ If you inspect the content of the `result.md` file, you'll see something like th
 ```
 
 
-* Directly providing a long string of deeply nested JSON string can be cumbersome. To avoid that—you can proide a `.json` file directly. To do so—
+* Directly providing a long string of deeply nested JSON string can be cumbersome. To avoid that—you can proide a `.json` file directly. To do so:
 
 ```
 crusher --json_path=examples/example.json --export_path=examples/result.md
