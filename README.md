@@ -91,7 +91,7 @@ pip install crusher
     ```
 
 
-* Directly providing a long string of deeply nested JSON string can be cumbersome. To avoid that—you can proide a `.json` file directly. To do so:
+* Directly providing a long string of deeply nested JSON string can be cumbersome. To avoid that—you can provide a `.json` file directly. To do so:
 
     ```bash
     crusher --json_path=examples/example.json --export_path=examples/result.md
@@ -99,7 +99,7 @@ pip install crusher
 
     This should give you a similar output as before.
 
-* Also, you may want to exclude the result of an JSON attribute—useful while doing documentation. To do so, use the `--hide_values` flag.
+* Also, you may want to exclude the result of a JSON attribute—useful while doing documentation. To do so, use the `--hide_values` flag.
 
     ```bash
     crusher \

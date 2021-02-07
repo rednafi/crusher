@@ -25,7 +25,7 @@ publish:   		## Build and publish to PYPI
 
 coverage: 		## Upload code coverage
 
-	pytest -v -s --cov-report=xml --cov=konfik tests/
+	pytest -v -s --cov-report=xml --cov=crusher tests/
 
 export:  		## Export pyproject.toml deps to requirements.txt
 	poetry export -f requirements.txt -o requirements.txt --without-hashes
