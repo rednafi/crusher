@@ -65,7 +65,7 @@ crusher \
 ```
 
 ```
-                                🍺 Crushed JSON 🍺
+                                        🍺 Crushed JSON 🍺
 
  🌳  person.first_name : str  =>  Warner
  🌳  person.last_name : str  =>  Hysenberg
@@ -109,7 +109,7 @@ crusher \
 ```
 
 ```
-                                🍺 Crushed JSON 🍺
+                                        🍺 Crushed JSON 🍺
 
  🌳  person.first_name : str
  🌳  person.last_name : str
