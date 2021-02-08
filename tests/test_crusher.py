@@ -1,6 +1,6 @@
 import pytest
 
-from crusher import ArgCombinationError, Color, flatten
+from crusher import ArgCombinationError, Color, flatten, Crusher, Console, Emoji
 
 
 def test_color():
@@ -159,3 +159,124 @@ def test_flatten_delimiter():
     }
 
     assert flatten(d, prefix="", delimiter="$$") == expected_r
+
+
+def test_crusher_init():
+    d = {
+        "i": {
+            "j": {
+                "k": ["dd", "ee"],
+            }
+        }
+    }
+
+    # Initializing with the default parameter.
+    cr = Crusher(dct=d)
+
+    # Checking whether the dict was passed correctly.
+    assert cr.dct == d
+
+    # Checking the default parameters.
+    assert cr.prefix == ""
+    assert cr.delimiter == "."
+    assert cr.show_value is True
+    assert cr.export_path is None
+
+    # Checking that the injected classes are passed and initialized properly.
+    assert isinstance(cr._color, Color)
+    assert isinstance(cr._console, Console)
+    assert cr._emoji is Emoji
+
+
+def test_crusher_flat_dct():
+    d = {
+        "i": {
+            "j": {
+                "k": ["dd", "ee"],
+            }
+        }
+    }
+
+    cr = Crusher(dct=d)
+    assert cr.flat_dct == {"i.j.k.0": "dd", "i.j.k.1": "ee"}
+
+
+def test_crusher_print_json(capsys):
+    d = {
+        "i": {
+            "j": {
+                "k": ["dd", "ee"],
+            }
+        }
+    }
+
+    cr = Crusher(dct=d)
+    cr.print_json()
+
+    out, err = capsys.readouterr()
+
+    assert err == ""
+    assert "🍺 Crushed JSON 🍺" in out
+    assert "🌳  i.j.k.0 : str  =>  dd" in out
+    assert "🌳  i.j.k.1 : str  =>  ee" in out
+
+
+def test_crusher_export_markdown(tmpdir):
+    d = {
+        "i": {
+            "j": {
+                "k": ["dd", "ee"],
+            }
+        }
+    }
+
+    file = tmpdir.join("output.md")
+    cr = Crusher(dct=d, export_path=file.strpath)
+    cr.export_markdown()
+
+    assert "* `i.j.k.0`: `str` => `dd`" in file.read()
+    assert "* `i.j.k.1`: `str` => `ee`" in file.read()
+
+
+def test_crusher_crush(capsys, tmpdir):
+    d = {
+        "i": {
+            "j": {
+                "k": ["dd", "ee"],
+            }
+        }
+    }
+
+    file = tmpdir.join("output.md")
+    cr = Crusher(dct=d, export_path=file.strpath)
+    cr.crush()
+
+    out, err = capsys.readouterr()
+
+    assert err == ""
+    assert "🍺 Crushed JSON 🍺" in out
+    assert "🌳  i.j.k.0 : str  =>  dd" in out
+    assert "🌳  i.j.k.1 : str  =>  ee" in out
+
+    assert "* `i.j.k.0`: `str` => `dd`" in file.read()
+    assert "* `i.j.k.1`: `str` => `ee`" in file.read()
+
+    # Testing other combinations of input parameters.
+    cr = Crusher(
+        dct=d,
+        export_path=file.strpath,
+        prefix="@",
+        delimiter="|",
+        show_value=False,
+    )
+    cr.crush()
+
+    out, err = capsys.readouterr()
+
+    assert err == ""
+    assert "🍺 Crushed JSON 🍺" in out
+    assert "🌳  @|i|j|k|0 : str" in out
+    assert "🌳  @|i|j|k|1 : str" in out
+
+    assert "* `@|i|j|k|0`: `str`" in file.read()
+    assert "* `@|i|j|k|1`: `str`" in file.read()
