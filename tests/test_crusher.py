@@ -1,3 +1,5 @@
+from argparse import ArgumentParser
+from crusher.crusher import CLI, cli_entrypoint
 import pytest
 
 from crusher import ArgCombinationError, Color, flatten, Crusher, Console, Emoji
@@ -280,3 +282,85 @@ def test_crusher_crush(capsys, tmpdir):
 
     assert "* `@|i|j|k|0`: `str`" in file.read()
     assert "* `@|i|j|k|1`: `str`" in file.read()
+
+
+def test_cli_init():
+    cli = CLI()
+    assert cli._crusher is Crusher
+
+
+def test_cli_load_json(tmp_path):
+    cli = CLI()
+
+    # Load JSON string.
+    d = cli.load_json(json_str='{"1": "2"}')
+    assert d == {"1": "2"}
+
+    # Load JSON from path.
+    d = tmp_path / "test"
+    d.mkdir()
+    p = d / "test.json"
+    p.write_text('{"1": "2"}')
+
+    d = cli.load_json(json_str=None, json_path=p)
+
+    assert d == {"1": "2"}
+
+
+def test_cli_get_parser():
+    cli = CLI()
+    parser = cli.get_parser()
+    assert isinstance(parser, ArgumentParser)
+
+
+def test_cli_handle_error():
+    cli = CLI(_help_on_missing_arg=False)
+
+    with pytest.raises(ArgCombinationError):
+        cli.entrypoint(argv=['--json={"1": "2"}', "--json_path=dummy"])
+
+    with pytest.raises(ArgCombinationError):
+        cli.entrypoint(argv=['--json={"1": "2"}', "--demo"])
+
+    with pytest.raises(ArgCombinationError):
+        cli.entrypoint(argv=["--demo", "--json_path=dummy"])
+
+
+def test_cli_entrypoint(capsys, tmp_path, tmpdir):
+    cli = CLI(_help_on_missing_arg=False)
+
+    cli.entrypoint(argv=['--json={"1": "2"}'])
+    out, err = capsys.readouterr()
+    assert err == ""
+    assert "🍺 Crushed JSON 🍺" in out
+
+    cli.entrypoint(argv=["--demo"])
+    out, err = capsys.readouterr()
+    assert err == ""
+    assert "🍺 Crushed JSON 🍺" in out
+    assert "3934de86-e308-4407-b411-e57b23b9f1e5" in out
+
+    d = tmp_path / "test"
+    d.mkdir()
+    p = d / "test.json"
+    p.write_text('{"1": "2"}')
+
+    cli.entrypoint(argv=[f"--json_path={p}"])
+    out, err = capsys.readouterr()
+    assert err == ""
+    assert "🍺 Crushed JSON 🍺" in out
+    assert "🌳  1 : str  =>  2" in out
+
+    file = tmpdir.join("output.md")
+    cli.entrypoint(argv=['--json={"1": "2"}', f"--export_path={file.strpath}"])
+    out, err = capsys.readouterr()
+    assert err == ""
+    assert "🍺 Crushed JSON 🍺" in out
+    assert "🌳  1 : str  =>  2" in out
+    assert "* `1`: `str` => `2`" in file.read()
+
+    cli.entrypoint(argv=['--json={"1": "2"}', f"--hide_values"])
+    out, err = capsys.readouterr()
+    assert err == ""
+    assert "🍺 Crushed JSON 🍺" in out
+    assert not "=>  2" in out

@@ -253,8 +253,9 @@ class Crusher:
 
 
 class CLI:
-    def __init__(self, _crusher=Crusher):
+    def __init__(self, _crusher=Crusher, _help_on_missing_arg=True):
         self._crusher = _crusher
+        self._help_on_missing_arg = _help_on_missing_arg
 
     @staticmethod
     def load_json(json_str, json_path=None, demo=False, _demo_str=_DEMO_STR):
@@ -267,13 +268,13 @@ class CLI:
         with open(json_path) as f:
             return json.load(f)
 
-    @staticmethod
-    def handle_errors(parser, args):
-        try:
-            sys.argv[1]
-        except IndexError:
-            parser.print_help()
-            parser.exit()
+    def handle_errors(self, parser, args):
+        if self._help_on_missing_arg:
+            try:
+                sys.argv[1]
+            except IndexError:
+                parser.print_help()
+                parser.exit()
 
         if args.json and args.json_path:
             raise ArgCombinationError("This combination of arguments is not allowed.")
@@ -340,6 +341,10 @@ class CLI:
         sp.crush()
 
 
-def cli_entrypoint():
-    cli = CLI(Crusher)
-    cli.entrypoint(argv=None)
+def cli_entrypoint(argv=None, _help_on_missing_arg=True):
+    cli = CLI(_help_on_missing_arg=_help_on_missing_arg)
+    cli.entrypoint(argv=argv)
+
+
+# if __name__ == '__main__':
+#     cli_entrypoint(argv=['--json={}'],_help_on_missing_arg=False)
