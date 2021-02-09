@@ -326,6 +326,10 @@ def test_cli_handle_error():
     with pytest.raises(ArgCombinationError):
         cli.entrypoint(argv=["--demo", "--json_path=dummy"])
 
+    cli = CLI(_help_on_missing_arg=True)
+    with pytest.raises(SystemExit):
+        cli.entrypoint()
+
 
 def test_cli_entrypoint(capsys, tmp_path, tmpdir):
     cli = CLI(_help_on_missing_arg=False)
@@ -373,3 +377,12 @@ def test_cli_entrypoint_func(capsys):
     assert err == ""
     assert "🍺 Crushed JSON 🍺" in out
     assert "3934de86-e308-4407-b411-e57b23b9f1e5" in out
+
+
+def test_init_file():
+    import pkg_resources
+
+    import crusher
+
+    __version__ = pkg_resources.get_distribution("crusher").version
+    crusher.__version__ == __version__
