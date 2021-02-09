@@ -1,8 +1,9 @@
 from argparse import ArgumentParser
-from crusher.crusher import CLI, cli_entrypoint
+
 import pytest
 
-from crusher import ArgCombinationError, Color, flatten, Crusher, Console, Emoji
+from crusher import ArgCombinationError, Color, Console, Crusher, Emoji, flatten
+from crusher.crusher import CLI, cli_entrypoint
 
 
 def test_color():
@@ -364,3 +365,11 @@ def test_cli_entrypoint(capsys, tmp_path, tmpdir):
     assert err == ""
     assert "🍺 Crushed JSON 🍺" in out
     assert not "=>  2" in out
+
+
+def test_cli_entrypoint_func(capsys):
+    cli_entrypoint(argv=["--demo"], _help_on_missing_arg=False)
+    out, err = capsys.readouterr()
+    assert err == ""
+    assert "🍺 Crushed JSON 🍺" in out
+    assert "3934de86-e308-4407-b411-e57b23b9f1e5" in out
