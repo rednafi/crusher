@@ -8,6 +8,11 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.6"
 rich = "^9.10.0"
+black = "^20.8b1"
+pytest = "^6.2.2"
+tox = "^3.21.4"
+pip-tools = "^5.5.0"
+pytest-cov = "^2.11.1"
 
 [tool.poetry.dev-dependencies]
 black = "isort"
