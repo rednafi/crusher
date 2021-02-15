@@ -17,6 +17,7 @@ pip-tools = "^6.1.0"
 pytest-cov = "^2.12.1"
 isort = "^5.8.0"
 mypy = "^0.902"
+flake8 = "^3.9.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
