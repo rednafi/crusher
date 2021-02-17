@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "crusher"
-version = "0.1.2"
+version = "0.1.3"
 description = "Crush a deeply nested JSON string."
 authors = ["rednafi <redowan.nafi@gmail.com>"]
 license = "MIT"
