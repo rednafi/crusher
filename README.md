@@ -19,7 +19,7 @@
 
 **Crusher** lets you flatten a deeply nested JSON file or string, and export it to markdown through a simple CLI. It also prints out the flattened JSON with type annotated variables for inspection.
 
-I primarily wrote it to automate the tedious part of documenting REST API endpoints in Postman.
+I primarily wrote it to automate the tedious part of documenting REST API responses via markdown.
 
 ## Installation
 
