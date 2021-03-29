@@ -1,6 +1,10 @@
+from __future__ import annotations
+
 import argparse
 import json
 import sys
+from collections.abc import Callable
+from typing import Any
 
 from rich.console import Console
 from rich.emoji import Emoji
@@ -114,7 +118,11 @@ class ArgCombinationError(Exception):
     """Raised when an invalid argument combination is provided."""
 
 
-def flatten(dct, prefix="", delimiter="."):
+def flatten(
+    dct: dict[Any, Any],
+    prefix: str = "",
+    delimiter: str = ".",
+) -> dict[str, Any]:
     """Turn a nested dictionary into a flattened dictionary
 
     Parameters
@@ -136,7 +144,7 @@ def flatten(dct, prefix="", delimiter="."):
 
     """
 
-    paths = []
+    paths = []  # type: list[Any]
     for k, v in dct.items():
         new_k = str(prefix) + delimiter + k if prefix else k
 
@@ -155,50 +163,50 @@ def flatten(dct, prefix="", delimiter="."):
 
 class Color:
     @staticmethod
-    def key(text):
+    def key(text: str) -> str:
         return f"[yellow]{text}[/yellow]"
 
     @staticmethod
-    def type(text):
+    def type(text: str) -> str:
         return f"[magenta]{text}[/magenta]"
 
     @staticmethod
-    def arrow(text):
+    def arrow(text: str) -> str:
         return f"[green]{text}[/green]"
 
     @staticmethod
-    def value(text):
+    def value(text: str) -> str:
         return f"[cyan]{text}[/cyan]"
 
 
 class Crusher:
     def __init__(
         self,
-        dct,
-        prefix="",
-        delimiter=".",
-        show_value=True,
-        export_path=None,
-        _flatten=flatten,
-        _console=Console,
-        _emoji=Emoji,
-        _color=Color,
-    ):
+        dct: dict[str, Any],
+        prefix: str = "",
+        delimiter: str = ".",
+        show_value: bool = True,
+        export_path: str | None = None,
+        _flatten: Callable[..., dict[str, Any]] = flatten,
+        _console: type[Console] = Console,
+        _emoji: type[Emoji] = Emoji,
+        _color: type[Color] = Color,
+    ) -> None:
         self.dct = dct
         self.prefix = prefix
         self.delimiter = delimiter
         self.show_value = show_value
-        self.export_path = export_path
+        self.export_path = export_path  # type: str | None
         self._flatten = _flatten
         self._console = _console()
         self._emoji = _emoji
         self._color = _color()
 
     @property
-    def flat_dct(self):
+    def flat_dct(self) -> dict[str, Any]:
         return self._flatten(self.dct, prefix=self.prefix, delimiter=self.delimiter)
 
-    def print_json(self):
+    def print_json(self) -> None:
         """Print a flattened JSON string."""
 
         emo = self._emoji("beer")
@@ -231,7 +239,7 @@ class Crusher:
                     color.type(type(v).__name__),
                 )
 
-    def export_markdown(self):
+    def export_markdown(self) -> None:
         """Export to markdown."""
 
         rows = []
@@ -242,10 +250,10 @@ class Crusher:
                 row = f"* `{k}`: `{type(v).__name__}`"
             rows.append(row)
 
-        with open(self.export_path, "+w") as f:
+        with open(self.export_path, "+w") as f:  # type: ignore
             f.write("\n\n".join(rows))
 
-    def crush(self):
+    def crush(self) -> None:
         self.print_json()
 
         if self.export_path:
@@ -253,22 +261,33 @@ class Crusher:
 
 
 class CLI:
-    def __init__(self, _crusher=Crusher, _help_on_missing_arg=True):
+    def __init__(
+        self,
+        _crusher: type[Crusher] = Crusher,
+        _help_on_missing_arg: bool = True,
+    ):
         self._crusher = _crusher
         self._help_on_missing_arg = _help_on_missing_arg
 
     @staticmethod
-    def load_json(json_str, json_path=None, demo=False, _demo_str=_DEMO_STR):
+    def load_json(
+        json_str: str,
+        json_path: str = None,
+        demo: bool = False,
+        _demo_str: str = _DEMO_STR,
+    ) -> dict[str, Any]:
         if demo:
             return json.loads(_demo_str)
 
         if json_str:
             return json.loads(json_str)
 
-        with open(json_path) as f:
+        with open(json_path) as f:  # type: ignore
             return json.load(f)
 
-    def handle_errors(self, parser, args):
+    def handle_errors(
+        self, parser: argparse.ArgumentParser, args: argparse.Namespace
+    ) -> None:
         if self._help_on_missing_arg:
             try:
                 sys.argv[1]
@@ -283,7 +302,7 @@ class CLI:
             raise ArgCombinationError("This combination of arguments is not allowed.")
 
     @staticmethod
-    def get_parser():
+    def get_parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(
             description="🗿 Crusher: Flatten a JSON String / File.",
         )
@@ -322,7 +341,7 @@ class CLI:
 
         return parser
 
-    def entrypoint(self, argv=None):
+    def entrypoint(self, argv: str | None = None) -> None:
         parser = self.get_parser()
         args = parser.parse_args(argv)
 
@@ -341,7 +360,10 @@ class CLI:
         sp.crush()
 
 
-def cli_entrypoint(argv=None, _help_on_missing_arg=True):
+def cli_entrypoint(
+    argv: str | None = None,
+    _help_on_missing_arg: bool = True,
+) -> None:
     cli = CLI(_help_on_missing_arg=_help_on_missing_arg)
     cli.entrypoint(argv=argv)
 
