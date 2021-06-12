@@ -1,10 +1,9 @@
 #!/bin/python3
 
-import toml
 import subprocess
-
-
 import sys
+
+import toml
 
 
 class UpdateDeps:
@@ -36,11 +35,15 @@ class UpdateDeps:
             app_deps = toml_dct["tool"]["poetry"]["dependencies"]
             dev_deps = toml_dct["tool"]["poetry"]["dev-dependencies"]
 
-            for k in {**app_deps, **dev_deps}:
+            for k in app_deps:
                 if k.lower() == "python":
                     continue
-
                 subprocess.run(["poetry", "add", f"{k}@latest"])
+
+            for k in dev_deps:
+                if k.lower() == "python":
+                    continue
+                subprocess.run(["poetry", "add", f"{k}@latest", "--dev"])
 
     def run_tests(self):
         print("Running the tests...\n")
