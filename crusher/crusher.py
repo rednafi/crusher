@@ -123,26 +123,7 @@ def flatten(
     prefix: str = "",
     delimiter: str = ".",
 ) -> dict[str, Any]:
-    """Turn a nested dictionary into a flattened dictionary
-
-    Parameters
-    ----------
-    dct : dict
-        The dictionary to flatten
-    prefix : bool, optional
-        The string to prepend to dictionary's keys, by default False
-    delimiter : str, optional
-        str, by default "."
-
-    Returns
-    -------
-    dict
-        Flattened dictionary
-
-    Examples
-    --------
-
-    """
+    """Turn a nested dictionary into a flattened dictionary."""
 
     paths = []  # type: list[Any]
     for k, v in dct.items():
@@ -366,7 +347,3 @@ def cli_entrypoint(
 ) -> None:
     cli = CLI(_help_on_missing_arg=_help_on_missing_arg)
     cli.entrypoint(argv=argv)
-
-
-# if __name__ == '__main__':
-#     cli_entrypoint(argv=['--json={}'],_help_on_missing_arg=False)
