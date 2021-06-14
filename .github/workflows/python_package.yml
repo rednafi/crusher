@@ -33,15 +33,19 @@ jobs:
           echo "Installing the dependencies..."
           poetry install
 
-      - name: Check Black Formatting
+      - name: Check Linter
         run: |
           echo "Checking black formatting..."
           poetry run black --check .
 
-      # - name: Check Isort Formatting
-      #   run: |
-      #     echo "Checking Isort formatting..."
-      #     poetry run isort --profile black --check .
+          echo "Checking Isort formatting..."
+          poetry run isort --check .
+
+          echo "Checking flake8 formatting..."
+          poetry run flake8 .
+
+          echo "Checking mypy formatting..."
+          echo y | poetry run mypy --install-types .
 
       - name: Run the tests & Generate coverage report
         run: |

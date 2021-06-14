@@ -1,3 +1,3 @@
-import pkg_resources  # type: ignore
+import pkg_resources
 
 __version__ = pkg_resources.get_distribution("crusher").version
